@@ -21,14 +21,6 @@ RUN wget -N $CB_RELEASE_URL/cbft/$CBFT_VERSION/$CBFT_PACKAGE && \
 RUN wget -N $CB_RELEASE_URL/query-workbench/$QUERY_WORKBENCH_VERSION/$QUERY_WORKBENCH_PACKAGE && \
     tar -zxvf $QUERY_WORKBENCH_PACKAGE && rm -f ./$QUERY_WORKBENCH_PACKAGE
 
-RUN cd /opt/couchbase && \
-         mkdir -p var/lib/couchbase \
-         var/lib/couchbase/config \
-         var/lib/couchbase/data \
-         var/lib/couchbase/stats \
-         var/lib/couchbase/logs \
-         var/lib/moxi && chown -R couchbase:couchbase var
-
 # Requires a docker host with at least 8G of Ram
 RUN set -xv && /entrypoint.sh couchbase-server start & sleep 7 && set -xv && /opt/couchbase/bin/couchbase-cli  cluster-init -c $HOSTNAME:8091 --cluster-username=Administrator  --cluster-password=password --cluster-port=8091 --cluster-ramsize=256 --cluster-index-ramsize=256 --services=data,index,query && /opt/couchbase/bin/couchbase-cli bucket-create -c $HOSTNAME:8091 --bucket=default --bucket-type=couchbase --bucket-port=11211  --bucket-ramsize=128  --bucket-replica=0 -u Administrator -p password && /opt/couchbase/bin/cbdocloader -n $HOSTNAME:8091 -u Administrator -p password -b travel-sample /opt/couchbase/samples/travel-sample.zip
 
