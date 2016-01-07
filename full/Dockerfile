@@ -27,7 +27,7 @@ RUN groupadd -g 1000 couchbase && useradd couchbase -u 1000 -g couchbase -M
 RUN wget -N $CB_RELEASE_URL/$CB_VERSION/$CB_PACKAGE && \
     echo "$CB_SHA256  $CB_PACKAGE" | sha256sum -c - && \
     dpkg -i ./$CB_PACKAGE && rm -f ./$CB_PACKAGE && \
-    sleep 10 && /opt/couchbase/bin/couchbase-cli  cluster-init -c $HOSTNAME:8091 --cluster-username=Administrator  --cluster-password=password --cluster-port=8091 --cluster-ramsize=256 --cluster-index-ramsize=256 --services=data,index,query && /opt/couchbase/bin/couchbase-cli bucket-create -c $HOSTNAME:8091 --bucket=default --bucket-type=couchbase --bucket-port=11211  --bucket-ramsize=128  --bucket-replica=0 -u Administrator -p password && /opt/couchbase/bin/cbdocloader -n $HOSTNAME:8091 -u Administrator -p password -b travel-sample /opt/couchbase/samples/travel-sample.zip
+    sleep 10 && /opt/couchbase/bin/couchbase-cli  cluster-init -c $HOSTNAME:8091 --cluster-username=Administrator  --cluster-password=password --cluster-port=8091 --cluster-ramsize=384 --cluster-index-ramsize=384 --services=data,index,query && /opt/couchbase/bin/couchbase-cli bucket-create -c $HOSTNAME:8091 --bucket=default --bucket-type=couchbase --bucket-port=11211  --bucket-ramsize=100  --bucket-replica=0 -u Administrator -p password && /opt/couchbase/bin/cbdocloader -n $HOSTNAME:8091 -u Administrator -p password -b travel-sample /opt/couchbase/samples/travel-sample.zip && /opt/couchbase/bin/cbdocloader -n $HOSTNAME:8091 -u Administrator -p password -b beer-sample /opt/couchbase/samples/beer-sample.zip
 
 # Add runit script for couchbase-server
 COPY scripts/run /etc/service/couchbase-server/run
