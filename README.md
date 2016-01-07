@@ -4,11 +4,9 @@ Simple Docker image to test Couchbase. It features a running, preconfigured couc
 
 It's goal is to be able to test the latest features comming up by just dockerunning a single image. (Yes dockerun is a verb).
 
-There are currently two implementations. Modular is not functionning at the moment. It's trying to do all the necessary steps starting from the couchbase:latest image.
-
 The full version is a fork of the official Couchbase image. Build it with:
 
-    docker build -t couchbase-devpreview .
+    docker build -t ldoguin/couchbase-dp .
 
 And run it with
 
@@ -18,6 +16,9 @@ Couchbase Server has already been setup and is accessible through the 8091 port.
 
 The travel-sample has been imported and the Data, Index and Query services are enabled by default.
 
+There are currently two implementations. Modular is not functionning at the moment. It's trying to do all the necessary steps starting from the couchbase:latest image.
+
 ## How we Manage all Processes
+
 
 To run the Couchbase Server, CBFT and QueryWorkbemch processes in the same container, we use [Supervisord](http://supervisord.org/).
